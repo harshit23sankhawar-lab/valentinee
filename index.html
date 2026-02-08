@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  }
+
+  .container, .venue {
+    text-align: center;
+    color: white;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 25px;
+  }
+
+  button {
+    padding: 14px 28px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  #yesBtn {
+    background: #ff4d6d;
+    color: white;
+    margin-right: 20px;
+  }
+
+  #yesBtn:hover {
+    transform: scale(1.1);
+  }
+
+ #noBtn {
+  background: #444;
+  color: white;
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  transform: translateX(80px);
+  transition: transform 0.4s ease;
+}
+
+  .venue {
+    display: none;
+  }
+
+  .venue h2 {
+    font-size: 2.6rem;
+    margin-bottom: 10px;
+  }
+
+  .venue p {
+    font-size: 1.3rem;
+    margin: 8px 0;
+  }
+
+  /* Floating hearts */
+  .heart {
+    position: fixed;
+    bottom: -10px;
+    font-size: 20px;
+    animation: floatUp 5s linear infinite;
+  }
+
+  @keyframes floatUp {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-110vh);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="C:\Users\HARSHIT\Downloads\Lauv - I Like Me Better [Official Audio] - Lauv.mp3" audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+<div class="container" id="proposal">
+  <h1>Hey Yashiiiii 💖<br>Will you be my Valentine?</h1>
+  <button id="yesBtn">YES ❤️</button>
+  <button id="noBtn">NO 💔</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="venue" id="venuePage">
+  <h2>She said YES! 💕</h2>
+  <p>Our Valentine Date 💘</p>
+  <p><strong>📍 Venue:</strong> Your House☕</p>
+  <p><strong>🕖 Time:</strong> 7:00 PM</p>
+  <p><strong>👗 Dress Code:</strong> Just be you 😌</p>
+  <p style="margin-top:20px;">Can’t wait ❤️</p>
+</div>
+
+<script>
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const proposal = document.getElementById("proposal");
+  const venuePage = document.getElementById("venuePage");
+  const music = document.getElementById("bgMusic");
+
+  let offsetX = 80;
+  let offsetY = 0;
+  let isActivated = false;
+
+  function escapeMove(dirX, dirY) {
+    offsetX += dirX * 120;
+    offsetY += dirY * 80;
+
+    // Keep inside screen
+    offsetX = Math.max(-200, Math.min(200, offsetX));
+    offsetY = Math.max(-150, Math.min(150, offsetY));
+
+    noBtn.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+  }
+
+  // Activate ONLY when cursor comes close
+  document.addEventListener("mousemove", (e) => {
+    const rect = noBtn.getBoundingClientRect();
+    const dx = e.clientX - (rect.left + rect.width / 2);
+    const dy = e.clientY - (rect.top + rect.height / 2);
+    const dist = Math.hypot(dx, dy);
+
+    if (dist < 90) {
+      isActivated = true;
+      escapeMove(dx > 0 ? -1 : 1, dy > 0 ? -1 : 1);
+    }
+  });
+
+  // Mobile support
+  document.addEventListener("touchstart", (e) => {
+    const touch = e.touches[0];
+    const rect = noBtn.getBoundingClientRect();
+    const dx = touch.clientX - (rect.left + rect.width / 2);
+    const dy = touch.clientY - (rect.top + rect.height / 2);
+    const dist = Math.hypot(dx, dy);
+
+    if (dist < 90) {
+      escapeMove(dx > 0 ? -1 : 1, dy > 0 ? -1 : 1);
+    }
+  });
+
+  // YES button
+  yesBtn.addEventListener("click", () => {
+    proposal.style.display = "none";
+    venuePage.style.display = "block";
+    document.body.style.background =
+      "linear-gradient(135deg, #fbc2eb, #a6c1ee)";
+    music.play();
+  });
+</script>
