@@ -89,14 +89,34 @@
     }
   }
 </style>
+<style>
+  audio {
+    display: none;
+  }
+</style>
+
 </head>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const music = document.getElementById("bgMusic");
+
+  document.addEventListener("click", () => {
+    if (music.paused) {
+      music.play().catch(() => {});
+    }
+  }, { once: true });
+});
+</script>
 
 <body>
 
 <!-- MUSIC -->
-<audio id="bgMusic" loop>
-  <source src="C:\Users\HARSHIT\Downloads\Lauv - I Like Me Better [Official Audio] - Lauv.mp3" audio/mpeg">
+<!-- HIDDEN AUDIO -->
+<audio id="bgMusic">
+  <source src="I like me better.mp3" type="audio/mpeg">
 </audio>
+
+
 
 <!-- PAGE 1 -->
 <div class="container" id="proposal">
